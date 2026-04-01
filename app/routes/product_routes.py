@@ -4,6 +4,8 @@ from app.database import SessionLocal
 from app.models.product import Product
 from app.utils.auth import get_current_user
 from fastapi.security import HTTPBearer
+from typing import List
+from app.schemas.product_schema import ProductResponse
 
 security = HTTPBearer()
 
@@ -16,7 +18,7 @@ def get_db():
     finally:
         db.close()
 
-@router.get("/")
+@router.get("/", response_model=List[ProductResponse])
 def get_products(
     category: str = Query(None),
     limit: int = 10,
